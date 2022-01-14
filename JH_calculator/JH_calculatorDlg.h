@@ -31,6 +31,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
 public:
 
 	float num0, num1;
@@ -51,12 +52,13 @@ public:
 	afx_msg void OnBnClickedButton7();
 	afx_msg void OnBnClickedButton8();
 	afx_msg void OnBnClickedButton9();
-
-	afx_msg void OnBnClickedButtonPlus2();
-	afx_msg void OnBnClickedButtonSub();
+	
+	afx_msg void OnBnClickedButtonPlus();
+	afx_msg void OnBnClickedButtonMinus();
 	afx_msg void OnBnClickedButtonMply();
 	afx_msg void OnBnClickedButtonDiv();
 
 	afx_msg void OnBnClickedButtonEqu();
+
 
 };

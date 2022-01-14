@@ -87,12 +87,13 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON8, &CJHcalculatorDlg::OnBnClickedButton8)
 	ON_BN_CLICKED(IDC_BUTTON9, &CJHcalculatorDlg::OnBnClickedButton9)
 	
-	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CJHcalculatorDlg::OnBnClickedButtonPlus2)
-	ON_BN_CLICKED(IDC_BUTTON_SUB, &CJHcalculatorDlg::OnBnClickedButtonSub)
+	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CJHcalculatorDlg::OnBnClickedButtonPlus)
+	ON_BN_CLICKED(IDC_BUTTON_MINUS, &CJHcalculatorDlg::OnBnClickedButtonMinus)
 	ON_BN_CLICKED(IDC_BUTTON_MPLY, &CJHcalculatorDlg::OnBnClickedButtonMply)
 	ON_BN_CLICKED(IDC_BUTTON_DIV, &CJHcalculatorDlg::OnBnClickedButtonDiv)
 
 	ON_BN_CLICKED(IDC_BUTTON_EQU, &CJHcalculatorDlg::OnBnClickedButtonEqu)
+
 
 END_MESSAGE_MAP()
 
@@ -357,7 +358,10 @@ void CJHcalculatorDlg::OnBnClickedButton9()
 
 
 
-void CJHcalculatorDlg::OnBnClickedButtonPlus2()
+
+
+
+void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
 	if (Edit_window != _T(""))
 	{
@@ -366,13 +370,10 @@ void CJHcalculatorDlg::OnBnClickedButtonPlus2()
 		Edit_window = _T("");
 		op = 1;
 	}
-
-	
 }
 
 
-
-void CJHcalculatorDlg::OnBnClickedButtonSub()
+void CJHcalculatorDlg::OnBnClickedButtonMinus()
 {
 	if (Edit_window != _T(""))
 	{
@@ -382,7 +383,6 @@ void CJHcalculatorDlg::OnBnClickedButtonSub()
 		op = 2;
 	}
 }
-
 
 
 void CJHcalculatorDlg::OnBnClickedButtonMply()
@@ -440,3 +440,4 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	str1 = _T("");
 	str2 = _T("");
 }
+
