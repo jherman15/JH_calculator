@@ -63,4 +63,5 @@ public:
 
 	afx_msg void OnBnClickedButtonBin();
 	afx_msg void OnBnClickedButtonOct();
+	afx_msg void OnBnClickedButtonHex();
 };

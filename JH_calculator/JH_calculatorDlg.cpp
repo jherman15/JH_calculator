@@ -99,6 +99,7 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 
 	ON_BN_CLICKED(IDC_BUTTON_BIN, &CJHcalculatorDlg::OnBnClickedButtonBin)
 	ON_BN_CLICKED(IDC_BUTTON_OCT, &CJHcalculatorDlg::OnBnClickedButtonOct)
+	ON_BN_CLICKED(IDC_BUTTON_HEX, &CJHcalculatorDlg::OnBnClickedButtonHex)
 END_MESSAGE_MAP()
 
 
@@ -482,5 +483,46 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 	//	Edit_window = "Too large number";
 	//	UpdateData(FALSE);
 	//}
+	Edit_window = ""; // wyczyszczenie ekranu
+}
+
+
+void CJHcalculatorDlg::OnBnClickedButtonHex()
+{
+	result_copy = result;
+	int rem;
+	std::string q = ""; // pusta zmienna q typu string ktora bedzie przechowywac zmienna w systemie szesnastkowym
+	for (result_copy; result_copy > 0; result_copy /= 16)
+	{
+		rem = result_copy % 16; // reszta z dzielenia przez 16
+		if (rem >= 10)
+		{
+			q = char(rem + 55) + q; // odpowiedni znak kodu ASCII
+		}
+		else
+		{
+			q = char(rem + 48) + q; // odpowiedni znak kodu ASCII
+		}
+	}
+	if (q == "")
+	{
+		Edit_window = "0"; // dla pustego q, na ekranie wyswietlana jest wartosc 0
+		UpdateData(FALSE);
+	}
+	else
+	{
+		Edit_window = q.c_str(); // konwersja typu string na cstring
+		UpdateData(FALSE);
+	}
+	if (result_copy < 0)
+	{
+		Edit_window = "Negative number"; // dla liczb ujemnych, pojawi sie komunikat o bledzie
+		UpdateData(FALSE);
+	}
+	if (result > 9999999999999999)
+	{
+		Edit_window = "Too large number";
+		UpdateData(FALSE);
+	}
 	Edit_window = ""; // wyczyszczenie ekranu
 }

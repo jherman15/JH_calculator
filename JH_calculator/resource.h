@@ -34,7 +34,6 @@
 #define IDC_BUTTON13                    1021
 #define IDC_BUTTON_HEX                  1021
 #define IDC_BUTTON14                    1022
-#define IDC_PROGRESS1                   1023
 
 // Next default values for new objects
 // 
