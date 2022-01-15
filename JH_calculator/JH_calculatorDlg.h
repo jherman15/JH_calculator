@@ -35,7 +35,8 @@ protected:
 public:
 
 	float num0, num1;
-	float result, result_copy;
+	float result;
+	long long int result_copy;
 	int op;
 	bool Flag;
 	CString str1, str2;
