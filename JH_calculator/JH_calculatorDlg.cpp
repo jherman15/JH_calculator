@@ -7,6 +7,8 @@
 #include "JH_calculator.h"
 #include "JH_calculatorDlg.h"
 #include "afxdialogex.h"
+#include <bitset> //jh: convert to binary
+#include <vector>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -95,6 +97,8 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_EQU, &CJHcalculatorDlg::OnBnClickedButtonEqu)
 
 
+	ON_BN_CLICKED(IDC_BUTTON_BIN, &CJHcalculatorDlg::OnBnClickedButtonBin)
+	ON_BN_CLICKED(IDC_BUTTON_OCT, &CJHcalculatorDlg::OnBnClickedButtonOct)
 END_MESSAGE_MAP()
 
 
@@ -441,3 +445,40 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	str2 = _T("");
 }
 
+
+
+void CJHcalculatorDlg::OnBnClickedButtonBin()
+{
+	std::string binary;
+	binary = std::bitset<16>(result).to_string(); // zmienna b typu string; max 16bitowe liczby									//jh: change
+	Edit_window = binary.c_str(); //jh: conversion to CString (in order to display the result)
+	UpdateData(FALSE);
+}
+
+
+
+void CJHcalculatorDlg::OnBnClickedButtonOct()
+{
+	long long int rem; //jh: division's remainder
+	long long int oct = 0; //jh: octal number
+	result_copy = result; // result variable copy
+	for (long long int i = 1; result_copy > 0; i = i * 10) {
+		rem = result_copy % 8;
+		result_copy = result_copy / 8;
+		oct += (rem * i); // algorytm otrzymywania liczby w systemie osemkowym w petli for
+	}
+	Edit_window.Format(_T("%lld"), oct); // zmiana typu zmiennej o z int na cstring
+	UpdateData(FALSE);
+
+	if (result_copy < 0)
+	{
+		Edit_window = "Negative number"; // konwersja zachodzi tylko dla liczb wiekszych od zera
+		UpdateData(FALSE);
+	}
+	if (result > 9999999999999999)
+	{
+		Edit_window = "Too large number";
+		UpdateData(FALSE);
+	}
+	Edit_window = ""; // wyczyszczenie ekranu
+}

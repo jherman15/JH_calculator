@@ -35,7 +35,7 @@ protected:
 public:
 
 	float num0, num1;
-	float result;
+	long long int result, result_copy;
 	int op;
 	bool Flag;
 	CString str1, str2;
@@ -60,5 +60,6 @@ public:
 
 	afx_msg void OnBnClickedButtonEqu();
 
-
+	afx_msg void OnBnClickedButtonBin();
+	afx_msg void OnBnClickedButtonOct();
 };
