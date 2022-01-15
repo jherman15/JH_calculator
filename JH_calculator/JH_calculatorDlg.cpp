@@ -490,28 +490,46 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
 	result_copy = result;
-	int rem;
-	std::string q = ""; // pusta zmienna q typu string ktora bedzie przechowywac zmienna w systemie szesnastkowym
-	for (result_copy; result_copy > 0; result_copy /= 16)
+	
+	// char array to store hexadecimal number
+	//char hexaDeciNum[100];
+	std::string hexNum = ""; //variable to store hex number
+
+	// counter for hexadecimal number array
+	int i = 0;
+
+	while (result_copy != 0)
 	{
-		rem = result_copy % 16; // reszta z dzielenia przez 16
-		if (rem >= 10)
+		// temporary variable to store remainder
+		int rem = 0;
+
+		// storing remainder in temp variable.
+		rem = result_copy % 16;	//remainder
+
+		// check if temp < 10
+
+		if (rem < 10)
 		{
-			q = char(rem + 55) + q; // odpowiedni znak kodu ASCII
+			hexNum = char(rem + 48) + hexNum;
+			i++;
 		}
-		else
+		else 
 		{
-			q = char(rem + 48) + q; // odpowiedni znak kodu ASCII
+			hexNum = char(rem + 55) + hexNum;
+			i++;
 		}
+
+		result_copy = result_copy / 16;
 	}
-	if (q == "")
+
+	if (hexNum == "")
 	{
 		Edit_window = "0"; // dla pustego q, na ekranie wyswietlana jest wartosc 0
 		UpdateData(FALSE);
 	}
 	else
 	{
-		Edit_window = q.c_str(); // konwersja typu string na cstring
+		Edit_window = hexNum.c_str(); // konwersja typu string na cstring
 		UpdateData(FALSE);
 	}
 	if (result_copy < 0)
