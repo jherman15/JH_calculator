@@ -35,10 +35,10 @@ protected:
 public:
 
 	double num0, num1;
-	float result;
+	long double result;
 	long long int result_copy;
 	int op;
-	bool Flag;
+	bool Flag, equ_pressed; //jh: equ_pressed
 	CString str1, str2;
 	CString Edit_window;
 	

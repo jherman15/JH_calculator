@@ -61,6 +61,7 @@ CJHcalculatorDlg::CJHcalculatorDlg(CWnd* pParent /*=nullptr*/)
 	str2 = _T("");
 
 	Flag = true;
+	equ_pressed = false;
 	op = 0;
 	result = 0;
 
@@ -372,10 +373,18 @@ void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
-		Flag = !Flag;
-		Edit_window = _T("");
-		op = 1;
+		if (equ_pressed = true)
+		{
+			num1 = _ttof(Edit_window);
+			Flag = !Flag;
+			Edit_window = _T("");
+			op = 1;
+			equ_pressed = false;
+		}
+		else
+		{
+			OnBnClickedButtonEqu();
+		}
 	}
 }
 
@@ -450,6 +459,13 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	UpdateData(FALSE);
 	str1 = _T("");
 	str2 = _T("");
+	equ_pressed = true;
+
+	if (result > 9000000000000000)
+	{
+		Edit_window = "Too large number";
+		UpdateData(FALSE);
+	}
 }
 
 
@@ -457,7 +473,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
 	std::string binary;
-	binary = std::bitset<16>(result).to_string(); //jh: max 16-bit numbers
+	binary = std::bitset<32>(result).to_string(); //jh: max 32-bit numbers
 	Edit_window = binary.c_str(); //jh: conversion to CString (in order to display the result)
 	UpdateData(FALSE);
 }
@@ -476,7 +492,7 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 		oct += (rem * i); // algorytm otrzymywania liczby w systemie osemkowym w petli for
 	}
 
-	Edit_window.Format(_T("%d"), oct); //jh: change type of oct varibale from int to CString
+	Edit_window.Format(_T("%lld"), oct); //jh: change type of oct varibale from int to CString
 	UpdateData(FALSE);
 
 	if (result_copy < 0)
@@ -484,7 +500,7 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 		Edit_window = "Negative numbers not supported"; // conversion only for positive numbers
 		UpdateData(FALSE);
 	}
-	if (result > 9999999999999999)
+	if (result > 9000000000000000)
 	{
 		Edit_window = "Too large number";
 		UpdateData(FALSE);
