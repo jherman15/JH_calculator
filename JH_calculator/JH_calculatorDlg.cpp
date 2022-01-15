@@ -100,6 +100,8 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_BIN, &CJHcalculatorDlg::OnBnClickedButtonBin)
 	ON_BN_CLICKED(IDC_BUTTON_OCT, &CJHcalculatorDlg::OnBnClickedButtonOct)
 	ON_BN_CLICKED(IDC_BUTTON_HEX, &CJHcalculatorDlg::OnBnClickedButtonHex)
+	ON_BN_CLICKED(IDC_BUTTON_DEC, &CJHcalculatorDlg::OnBnClickedButtonDec)
+	ON_BN_CLICKED(IDC_BUTTON_CLR, &CJHcalculatorDlg::OnBnClickedButtonClr)
 END_MESSAGE_MAP()
 
 
@@ -439,6 +441,10 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	{
 		result = num1 / num0;
 	}
+	else
+	{
+		result = result;
+	}
 
 	Edit_window.Format(_T("%.3f"), result);
 	UpdateData(FALSE);
@@ -478,11 +484,11 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 		Edit_window = "Negative numbers not supported"; // conversion only for positive numbers
 		UpdateData(FALSE);
 	}
-	//if (result > 9999999999999999)
-	//{
-	//	Edit_window = "Too large number";
-	//	UpdateData(FALSE);
-	//}
+	if (result > 9999999999999999)
+	{
+		Edit_window = "Too large number";
+		UpdateData(FALSE);
+	}
 	Edit_window = ""; // wyczyszczenie ekranu
 }
 
@@ -543,4 +549,19 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 		UpdateData(FALSE);
 	}
 	Edit_window = ""; // wyczyszczenie ekranu
+}
+
+
+void CJHcalculatorDlg::OnBnClickedButtonDec()
+{
+	
+}
+
+
+void CJHcalculatorDlg::OnBnClickedButtonClr()
+{
+	Edit_window = "";
+	str1 = "";
+	str2 = "";
+	UpdateData(FALSE);
 }

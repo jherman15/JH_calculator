@@ -34,7 +34,7 @@ protected:
 
 public:
 
-	float num0, num1;
+	double num0, num1;
 	float result;
 	long long int result_copy;
 	int op;
@@ -64,4 +64,6 @@ public:
 	afx_msg void OnBnClickedButtonBin();
 	afx_msg void OnBnClickedButtonOct();
 	afx_msg void OnBnClickedButtonHex();
+	afx_msg void OnBnClickedButtonDec();
+	afx_msg void OnBnClickedButtonClr();
 };
