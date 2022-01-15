@@ -60,7 +60,7 @@ CJHcalculatorDlg::CJHcalculatorDlg(CWnd* pParent /*=nullptr*/)
 	str1 = _T("");
 	str2 = _T("");
 
-	Flag = true;
+	changeNum = true;
 	equ_pressed = false;
 	op = 0;
 	result = 0;
@@ -196,14 +196,14 @@ HCURSOR CJHcalculatorDlg::OnQueryDragIcon()
 
 void CJHcalculatorDlg::OnBnClickedButton0()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
-		str1 += _T("0");
+		str1 += _T("0");	//add 0 on the end of string 1
 		Edit_window = str1;
 	}
 	else
 	{
-		str2 += _T("0");
+		str2 += _T("0");	//add 0 on the end of string 2
 		Edit_window = str2;
 	}
 
@@ -214,7 +214,7 @@ void CJHcalculatorDlg::OnBnClickedButton0()
 
 void CJHcalculatorDlg::OnBnClickedButton1()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("1");
 		Edit_window = str1;
@@ -231,7 +231,7 @@ void CJHcalculatorDlg::OnBnClickedButton1()
 
 void CJHcalculatorDlg::OnBnClickedButton2()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("2");
 		Edit_window = str1;
@@ -248,7 +248,7 @@ void CJHcalculatorDlg::OnBnClickedButton2()
 
 void CJHcalculatorDlg::OnBnClickedButton3()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("3");
 		Edit_window = str1;
@@ -265,7 +265,7 @@ void CJHcalculatorDlg::OnBnClickedButton3()
 
 void CJHcalculatorDlg::OnBnClickedButton4()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("4");
 		Edit_window = str1;
@@ -282,7 +282,7 @@ void CJHcalculatorDlg::OnBnClickedButton4()
 
 void CJHcalculatorDlg::OnBnClickedButton5()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("5");
 		Edit_window = str1;
@@ -299,7 +299,7 @@ void CJHcalculatorDlg::OnBnClickedButton5()
 
 void CJHcalculatorDlg::OnBnClickedButton6()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("6");
 		Edit_window = str1;
@@ -316,7 +316,7 @@ void CJHcalculatorDlg::OnBnClickedButton6()
 
 void CJHcalculatorDlg::OnBnClickedButton7()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("7");
 		Edit_window = str1;
@@ -333,7 +333,7 @@ void CJHcalculatorDlg::OnBnClickedButton7()
 
 void CJHcalculatorDlg::OnBnClickedButton8()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("8");
 		Edit_window = str1;
@@ -350,7 +350,7 @@ void CJHcalculatorDlg::OnBnClickedButton8()
 
 void CJHcalculatorDlg::OnBnClickedButton9()
 {
-	if (Flag == true)
+	if (changeNum == true)
 	{
 		str1 += _T("9");
 		Edit_window = str1;
@@ -373,13 +373,13 @@ void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
 	if (Edit_window != _T(""))
 	{
-		if (equ_pressed = true)
+		if (equ_pressed = false)
 		{
-			num1 = _ttof(Edit_window);
-			Flag = !Flag;
-			Edit_window = _T("");
-			op = 1;
-			equ_pressed = false;
+			num1 = _ttof(Edit_window);		//jh: convert string to numerical value
+			changeNum = !changeNum;			//jh: num1 to num2 or num2 to num1
+			Edit_window = _T("");			
+			op = 1;							//jh: set operation to 1
+			equ_pressed = true;
 		}
 		else
 		{
@@ -394,7 +394,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMinus()
 	if (Edit_window != _T(""))
 	{
 		num1 = _ttof(Edit_window);
-		Flag = !Flag;
+		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 2;
 	}
@@ -406,7 +406,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMply()
 	if (Edit_window != _T(""))
 	{
 		num1 = _ttof(Edit_window);
-		Flag = !Flag;
+		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 3;
 	}
@@ -418,7 +418,7 @@ void CJHcalculatorDlg::OnBnClickedButtonDiv()
 	if (Edit_window != _T(""))
 	{
 		num1 = _ttof(Edit_window);
-		Flag = !Flag;
+		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 4;
 	}
@@ -430,7 +430,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	if (Edit_window != _T(""))
 	{
 		num0 = _ttof(Edit_window);
-		Flag = !Flag;
+		changeNum = !changeNum;
 		Edit_window = _T("");
 	}
 
@@ -463,7 +463,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 	if (result > 9000000000000000)
 	{
-		Edit_window = "Too large number";
+		Edit_window = "Max number is 9*10^15";
 		UpdateData(FALSE);
 	}
 }
@@ -570,7 +570,8 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 
 void CJHcalculatorDlg::OnBnClickedButtonDec()
 {
-	
+	Edit_window.Format(_T("%.3f"), result); // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
+	UpdateData(FALSE);
 }
 
 

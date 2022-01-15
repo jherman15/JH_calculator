@@ -38,7 +38,7 @@ public:
 	long double result;
 	long long int result_copy;
 	int op;
-	bool Flag, equ_pressed; //jh: equ_pressed
+	bool changeNum, equ_pressed; //jh: equ_pressed
 	CString str1, str2;
 	CString Edit_window;
 	
