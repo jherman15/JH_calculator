@@ -449,10 +449,10 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
-	//std::string binary;
-	//binary = std::bitset<16>(result).to_string(); // zmienna b typu string; max 16bitowe liczby									//jh: change
-	//Edit_window = binary.c_str(); //jh: conversion to CString (in order to display the result)
-	//UpdateData(FALSE);
+	std::string binary;
+	binary = std::bitset<16>(result).to_string(); // zmienna b typu string; max 16bitowe liczby									//jh: change
+	Edit_window = binary.c_str(); //jh: conversion to CString (in order to display the result)
+	UpdateData(FALSE);
 }
 
 
