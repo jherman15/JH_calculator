@@ -463,7 +463,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 	if (result > 9000000000000000)						//jh: this value is close to 2^53, which is approx. the maximum value
 	{
-		Edit_window = "Max number is 9*10^15";
+		Edit_window = "Max number is 9*10^15 (DEC)";
 		UpdateData(FALSE);
 	}
 }
@@ -473,64 +473,70 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
 	std::string binary;
-	binary = std::bitset<32>(result).to_string();		//jh: max 32-bit numbers
-	Edit_window = binary.c_str();						//jh: conversion to CString (in order to display the result)
+	binary = std::bitset<32>(result).to_string();			//jh: max 32-bit numbers
+	Edit_window = binary.c_str();							//jh: conversion to CString (in order to display the result)
 	UpdateData(FALSE);
+
+	if (result < 0)
+	{
+		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
+		UpdateData(FALSE);
+	}
+
+	if (result > 65535)
+	{
+		Edit_window = "Max number for BIN is 65535 (DEC)";
+		UpdateData(FALSE);
+	}
+
+
 }
 
 
 
 void CJHcalculatorDlg::OnBnClickedButtonOct()
 {
-	long long int oct = 0;								//jh: octal number
-	long long int rem;									//jh: division's remainder
-	result_copy = result;								//jh: result variable copy
+	long long int oct = 0;									//jh: octal number
+	long long int rem;										//jh: division's remainder
+	result_ = result;										//jh: result variable copy
 
-	for (long long int i = 1; result_copy > 0; i = i * 10)
+	for (long long int i = 1; result_ > 0; i = i * 10)
 	{
-		rem = result_copy % 8;							//jh: remainder of dividing by 8
-		result_copy = result_copy / 8;
-		oct += (rem * i);								//jh: algorytm otrzymywania liczby w systemie osemkowym w petli for
+		rem = result_ % 8;									//jh: remainder of dividing by 8
+		result_ = result_ / 8;
+		oct += (rem * i);									//jh: algorithm for getting octal number
 	}
 
-	Edit_window.Format(_T("%lld"), oct);				//jh: conversion of oct variable type (long long int) to CString
+	Edit_window.Format(_T("%lld"), oct);					//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
 
-	if (result_copy < 0)
+	if (result_ < 0)
 	{
-		Edit_window = "Negative numbers not supported"; // conversion only for positive numbers
+		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
 		UpdateData(FALSE);
 	}
 
 	if (result > 9000000000000000)
 	{
-		Edit_window = "Too large number";
+		Edit_window = "Max number is 9*10^15 (DEC)";
 		UpdateData(FALSE);
 	}
-	Edit_window = ""; // wyczyszczenie ekranu
+
+	Edit_window = "";										//jh: clear the edit window
 }
 
 
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
-	result_copy = result;
-	
-	// char array to store hexadecimal number
-	//char hexaDeciNum[100];
-	std::string hexNum = ""; //variable to store hex number
+	result_ = result;										//jh: result_ equals result to be used in conversion
+	std::string hexNum = "";								//jh: variable to store hex number string
 
-	// counter for hexadecimal number array
-	int i = 0;
+	int i = 0;												//jh: counter for hexadecimal number array
 
-	while (result_copy != 0)
+	while (result_ != 0)
 	{
-		// temporary variable to store remainder
-		int rem = 0;
-
-		// storing remainder in temp variable.
-		rem = result_copy % 16;	//remainder
-
-		// check if temp < 10
+		int rem = 0;										//jh: temporary variable to store remainder
+		rem = result_ % 16;
 
 		if (rem < 10)
 		{
@@ -543,12 +549,12 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 			i++;
 		}
 
-		result_copy = result_copy / 16;
+		result_ = result_ / 16;
 	}
 
 	if (hexNum == "")
 	{
-		Edit_window = "0"; // dla pustego q, na ekranie wyswietlana jest wartosc 0
+		Edit_window = "0";									// dla pustego q, na ekranie wyswietlana jest wartosc 0
 		UpdateData(FALSE);
 	}
 	else
@@ -556,17 +562,21 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 		Edit_window = hexNum.c_str(); // konwersja typu string na cstring
 		UpdateData(FALSE);
 	}
-	if (result_copy < 0)
+
+
+	if (result_ < 0)
 	{
-		Edit_window = "Negative number"; // dla liczb ujemnych, pojawi sie komunikat o bledzie
+		Edit_window = "Negative numbers not supported";
 		UpdateData(FALSE);
 	}
-	if (result > 9999999999999999)
+
+	if (result > 9000000000000000)
 	{
-		Edit_window = "Too large number";
+		Edit_window = "Max number is 9*10^15 (DEC)";
 		UpdateData(FALSE);
 	}
-	Edit_window = ""; // wyczyszczenie ekranu
+
+	Edit_window = "";
 }
 
 
@@ -574,6 +584,12 @@ void CJHcalculatorDlg::OnBnClickedButtonDec()
 {
 	Edit_window.Format(_T("%.3f"), result); // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
 	UpdateData(FALSE);
+
+	if (result > 9000000000000000)
+	{
+		Edit_window = "Max number is 9*10^15 (DEC)";
+		UpdateData(FALSE);
+	}
 }
 
 

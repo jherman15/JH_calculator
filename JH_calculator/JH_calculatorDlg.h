@@ -36,9 +36,9 @@ public:
 
 	double num0, num1;
 	long double result;
-	long long int result_copy;
+	long long int result_;					//jh: copy of result to be used in conversion
 	int op;
-	bool changeNum, equ_pressed; //jh: equ_pressed
+	bool changeNum, equ_pressed;			//jh: equ_pressed
 	CString str1, str2;
 	CString Edit_window;
 	
