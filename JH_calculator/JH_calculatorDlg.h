@@ -41,6 +41,8 @@ public:
 	bool changeNum, equ_pressed;			//jh: equ_pressed
 	CString str1, str2;
 	CString Edit_window;
+
+	long long int BinAlgorithm(long long int number);
 	
 
 	afx_msg void OnBnClickedButton0();

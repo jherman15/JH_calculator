@@ -376,10 +376,10 @@ void CJHcalculatorDlg::OnBnClickedButtonPlus()
 		//if (equ_pressed = false)
 		//{
 			num1 = _ttof(Edit_window);		//jh: convert string to numerical value (num1)
-			changeNum = !changeNum;			//jh: num1 to num2 or num2 to num1
+			changeNum = !changeNum;			//jh: num1 to num2 or num2 to num1				//jh: changeNum to false		//dok
 			Edit_window = _T("");			
 			op = 1;							//jh: set operation to 1
-			equ_pressed = true;
+			equ_pressed = true;																								//dok
 		//}
 		//else
 		//{
@@ -468,15 +468,27 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	}
 }
 
-
+long long int CJHcalculatorDlg::BinAlgorithm(long long int number)
+{
+	number = _ttof(Edit_window);
+	std::string binary;
+	binary = std::bitset<32>(number).to_string();			//jh: max 32-bit numbers
+	Edit_window = binary.c_str();							//jh: conversion to CString (in order to display the result)
+	UpdateData(FALSE);
+	return number;
+}
 
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
-	std::string binary;
-	binary = std::bitset<32>(result).to_string();			//jh: max 32-bit numbers
-	Edit_window = binary.c_str();							//jh: conversion to CString (in order to display the result)
-	UpdateData(FALSE);
-
+	if (changeNum == true)
+	{
+		BinAlgorithm(num1);
+	}
+	else
+	{
+		BinAlgorithm(result);
+	}
+	
 	if (result < 0)
 	{
 		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
@@ -496,9 +508,11 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 
 void CJHcalculatorDlg::OnBnClickedButtonOct()
 {
+	num1 = _ttof(Edit_window);
+
 	long long int oct = 0;									//jh: octal number
 	long long int rem;										//jh: division's remainder
-	result_ = result;										//jh: result variable copy
+	result_ = num1;										//jh: result variable copy
 
 	for (long long int i = 1; result_ > 0; i = i * 10)
 	{
@@ -528,6 +542,8 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
+	num1 = _ttof(Edit_window);
+
 	result_ = result;										//jh: result_ equals result to be used in conversion
 	std::string hexNum = "";								//jh: variable to store hex number string
 
@@ -582,6 +598,8 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 
 void CJHcalculatorDlg::OnBnClickedButtonDec()
 {
+	num1 = _ttof(Edit_window);
+
 	Edit_window.Format(_T("%.3f"), result); // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
 	UpdateData(FALSE);
 
