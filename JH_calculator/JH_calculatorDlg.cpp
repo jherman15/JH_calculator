@@ -478,6 +478,8 @@ long long int CJHcalculatorDlg::BinAlgorithm(long long int number)
 	return number;
 }
 
+
+
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
 	if (changeNum == true)
@@ -504,27 +506,39 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 
 }
 
-
-
-void CJHcalculatorDlg::OnBnClickedButtonOct()
+long long int CJHcalculatorDlg::OctAlgorithm(long long int number)
 {
-	num1 = _ttof(Edit_window);
+	number = _ttof(Edit_window);
 
 	long long int oct = 0;									//jh: octal number
 	long long int rem;										//jh: division's remainder
-	result_ = num1;										//jh: result variable copy
+	number_ = number;										//jh: result variable copy
 
-	for (long long int i = 1; result_ > 0; i = i * 10)
+	for (long long int i = 1; number_ > 0; i = i * 10)
 	{
-		rem = result_ % 8;									//jh: remainder of dividing by 8
-		result_ = result_ / 8;
+		rem = number_ % 8;									//jh: remainder of dividing by 8
+		number_ = number_ / 8;
 		oct += (rem * i);									//jh: algorithm for getting octal number
 	}
 
 	Edit_window.Format(_T("%lld"), oct);					//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
+	return number;
+}
 
-	if (result_ < 0)
+
+void CJHcalculatorDlg::OnBnClickedButtonOct()
+{
+	if (changeNum == true)
+	{
+		OctAlgorithm(num1);
+	}
+	else
+	{
+		OctAlgorithm(result);
+	}
+
+	if (number_ < 0)
 	{
 		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
 		UpdateData(FALSE);
@@ -540,19 +554,26 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 }
 
 
+long long int CJHcalculatorDlg::HexAlgorithm(long long int number)
+{
+	number = _ttof(Edit_window);
+	return number;
+}
+
+
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
 	num1 = _ttof(Edit_window);
 
-	result_ = result;										//jh: result_ equals result to be used in conversion
+	number_ = result;										//jh: number_ equals result to be used in conversion
 	std::string hexNum = "";								//jh: variable to store hex number string
 
 	int i = 0;												//jh: counter for hexadecimal number array
 
-	while (result_ != 0)
+	while (number_ != 0)
 	{
 		int rem = 0;										//jh: temporary variable to store remainder
-		rem = result_ % 16;
+		rem = number_ % 16;
 
 		if (rem < 10)
 		{
@@ -565,7 +586,7 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 			i++;
 		}
 
-		result_ = result_ / 16;
+		number_ = number_ / 16;
 	}
 
 	if (hexNum == "")
@@ -580,7 +601,7 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 	}
 
 
-	if (result_ < 0)
+	if (number_ < 0)
 	{
 		Edit_window = "Negative numbers not supported";
 		UpdateData(FALSE);

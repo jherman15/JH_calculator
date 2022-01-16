@@ -36,13 +36,15 @@ public:
 
 	double num0, num1;
 	long double result;
-	long long int result_;					//jh: copy of result to be used in conversion
+	long long int number_;					//jh: copy of result to be used in conversion
 	int op;
 	bool changeNum, equ_pressed;			//jh: equ_pressed
 	CString str1, str2;
 	CString Edit_window;
 
 	long long int BinAlgorithm(long long int number);
+	long long int OctAlgorithm(long long int number);
+	long long int HexAlgorithm(long long int number);
 	
 
 	afx_msg void OnBnClickedButton0();
