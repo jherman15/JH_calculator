@@ -61,7 +61,7 @@ CJHcalculatorDlg::CJHcalculatorDlg(CWnd* pParent /*=nullptr*/)
 	str2 = _T("");
 
 	changeNum = true;
-	equ_pressed = false;
+	//dok: equ_pressed = false;
 	op = 0;
 	result = 0;
 
@@ -375,11 +375,11 @@ void CJHcalculatorDlg::OnBnClickedButtonPlus()
 	{
 		//if (equ_pressed = false)
 		//{
-			num1 = _ttof(Edit_window);		//jh: convert string to numerical value (num1)
+			result = _ttof(Edit_window);		//jh: convert string to numerical value (num1)
 			changeNum = !changeNum;			//jh: num1 to num2 or num2 to num1
 			Edit_window = _T("");			
 			op = 1;							//jh: set operation to 1
-			equ_pressed = true;
+			//dok: equ_pressed = true;
 		//}
 		//else
 		//{
@@ -393,7 +393,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMinus()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 2;
@@ -405,7 +405,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMply()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 3;
@@ -417,7 +417,7 @@ void CJHcalculatorDlg::OnBnClickedButtonDiv()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 4;
@@ -429,6 +429,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 {
 	if (Edit_window != _T(""))
 	{
+		equPressed = true;
 		num0 = _ttof(Edit_window);			//jh: convert string to numerical value (num0)
 		changeNum = !changeNum;				
 		Edit_window = _T("");				//jh: clear the edit window
@@ -436,30 +437,26 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 	if (op == 1)
 	{
-		result = num1 + num0;
+		result += num0;
 	}
 	if (op == 2)
 	{
-		result = num1 - num0;
+		result -= num0;
 	}
 	if (op == 3)
 	{
-		result = num1 * num0;
+		result *= num0;
 	}
 	if (op == 4)
 	{
-		result = num1 / num0;
-	}
-	else
-	{
-		result = result;
+		result /= num0;
 	}
 
 	Edit_window.Format(_T("%.3f"), result);				//jh: convert the result from string to float
 	UpdateData(FALSE);
 	str1 = _T("");										//jh: clear string (str1)
 	str2 = _T("");										//jh: clear string (str2)
-	equ_pressed = true;
+	//dok: equ_pressed = true;
 
 	if (result > 9000000000000000)						//jh: this value is close to 2^53, which is approx. the maximum value
 	{
@@ -472,18 +469,34 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultBin = _ttof(str1);
+		}
+		else
+		{
+			resultBin = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultBin = result;
+	}
+	//changeNum = !changeNum;
 	std::string binary;
-	binary = std::bitset<32>(result).to_string();			//jh: max 32-bit numbers
+	binary = std::bitset<32>(resultBin).to_string();			//jh: max 32-bit numbers
 	Edit_window = binary.c_str();							//jh: conversion to CString (in order to display the result)
 	UpdateData(FALSE);
 
-	if (result < 0)
+	if (resultBin < 0)
 	{
 		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
 		UpdateData(FALSE);
 	}
 
-	if (result > 65535)
+	if (resultBin > 65535)
 	{
 		Edit_window = "Max number for BIN is 65535 (DEC)";
 		UpdateData(FALSE);
@@ -496,47 +509,81 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 
 void CJHcalculatorDlg::OnBnClickedButtonOct()
 {
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultOct = _ttof(str1);
+		}
+		else
+		{
+			resultOct = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultOct = result;
+	}
+
+
 	long long int oct = 0;									//jh: octal number
 	long long int rem;										//jh: division's remainder
-	result_ = result;										//jh: result variable copy
+	//resultOct = result;										//jh: result variable copy
 
-	for (long long int i = 1; result_ > 0; i = i * 10)
+	for (long long int i = 1; resultOct > 0; i = i * 10)
 	{
-		rem = result_ % 8;									//jh: remainder of dividing by 8
-		result_ = result_ / 8;
+		rem = resultOct % 8;									//jh: remainder of dividing by 8
+		resultOct = resultOct / 8;
 		oct += (rem * i);									//jh: algorithm for getting octal number
 	}
 
 	Edit_window.Format(_T("%lld"), oct);					//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
 
-	if (result_ < 0)
+	if (resultOct < 0)
 	{
 		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
 		UpdateData(FALSE);
 	}
 
-	if (result > 9000000000000000)
+	if (resultOct > 9000000000000000)
 	{
 		Edit_window = "Max number is 9*10^15 (DEC)";
 		UpdateData(FALSE);
 	}
 
-	Edit_window = "";										//jh: clear the edit window
+	//Edit_window = "";										//jh: clear the edit window//dok
 }
 
 
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
-	result_ = result;										//jh: result_ equals result to be used in conversion
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultHex = _ttof(str1);
+		}
+		else
+		{
+			resultHex = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultHex = result;
+	}
+
+
+	//resultHex = result;			//dok							//jh: resultHex equals result to be used in conversion
 	std::string hexNum = "";								//jh: variable to store hex number string
 
 	int i = 0;												//jh: counter for hexadecimal number array
 
-	while (result_ != 0)
+	while (resultHex != 0)
 	{
 		int rem = 0;										//jh: temporary variable to store remainder
-		rem = result_ % 16;
+		rem = resultHex % 16;
 
 		if (rem < 10)
 		{
@@ -549,40 +596,58 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 			i++;
 		}
 
-		result_ = result_ / 16;
+		resultHex = resultHex / 16;
 	}
 
 	if (hexNum == "")
 	{
-		Edit_window = "0";									// dla pustego q, na ekranie wyswietlana jest wartosc 0
+		Edit_window = "0";									// dla pustego q, na ekranie wyswietlana jest wartosc 0//dok
 		UpdateData(FALSE);
 	}
 	else
 	{
-		Edit_window = hexNum.c_str(); // konwersja typu string na cstring
+		Edit_window = hexNum.c_str(); // konwersja typu string na cstring//dok
 		UpdateData(FALSE);
 	}
 
 
-	if (result_ < 0)
+	if (resultHex < 0)
 	{
 		Edit_window = "Negative numbers not supported";
 		UpdateData(FALSE);
 	}
 
-	if (result > 9000000000000000)
+	if (resultHex > 9000000000000000)
 	{
 		Edit_window = "Max number is 9*10^15 (DEC)";
 		UpdateData(FALSE);
 	}
 
-	Edit_window = "";
+	//Edit_window = "";
 }
 
 
 void CJHcalculatorDlg::OnBnClickedButtonDec()
 {
-	Edit_window.Format(_T("%.3f"), result); // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultDec = _ttof(str1);
+			Edit_window.Format(_T("%.3f"), resultDec);
+		}
+		else
+		{
+			resultDec = _ttof(str1);
+			Edit_window.Format(_T("%.3f"), resultDec);
+		}
+	}
+	else
+	{
+		//resultDec = _ttof(result);
+		Edit_window.Format(_T("%.3f"), result);
+	}
+	 // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
 	UpdateData(FALSE);
 
 	if (result > 9000000000000000)
@@ -592,11 +657,16 @@ void CJHcalculatorDlg::OnBnClickedButtonDec()
 	}
 }
 
-
 void CJHcalculatorDlg::OnBnClickedButtonClr()
 {
 	Edit_window = "";
 	str1 = "";
 	str2 = "";
+	result = 0;
+	num0 = 0;
+	resultDec = 0;
+	resultBin = 0;
+	resultHex = 0;
+	resultOct = 0;
 	UpdateData(FALSE);
 }
