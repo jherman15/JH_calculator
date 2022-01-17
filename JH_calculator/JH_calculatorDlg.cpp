@@ -112,9 +112,7 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
-
-	// IDM_ABOUTBOX must be in the system command range.
+	
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -132,14 +130,13 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 		}
 	}
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
+	
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  
 }
 
 void CJHcalculatorDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -155,9 +152,7 @@ void CJHcalculatorDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+
 
 void CJHcalculatorDlg::OnPaint()
 {
@@ -444,7 +439,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 		result /= num0;
 	}
 
-	Edit_window.Format(_T("%.3f"), result);				//jh: convert the result from string to float
+	Edit_window.Format(_T("%.3f"), result);				//jh: convert the result from float type to CString type
 	UpdateData(FALSE);
 	str1 = _T("");										//jh: clear string (str1)
 	str2 = _T("");										//jh: clear string (str2)
@@ -624,7 +619,7 @@ void CJHcalculatorDlg::OnBnClickedButtonDec()					//jh: to go back to decimal sy
 		if (changeNum == true)
 		{
 			resultDec = _ttof(str1);							
-			Edit_window.Format(_T("%.3f"), resultDec);			//jh: display a float type variable
+			Edit_window.Format(_T("%.3f"), resultDec);			//jh: display a double type variable
 			resultDec = 0;
 		}
 		else

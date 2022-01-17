@@ -35,8 +35,8 @@ protected:
 public:
 
 	double num0, num1;
-	long double result, resultDec;
-	long long int resultBin, resultHex, resultOct;					//jh: copy of result to be used in conversion
+	double result, resultDec;
+	long long int resultBin, resultHex, resultOct;					//jh: to be used in conversion
 	int op;
 	bool changeNum, equPressed;
 	CString str1, str2;
