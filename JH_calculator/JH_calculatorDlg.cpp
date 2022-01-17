@@ -366,12 +366,14 @@ void CJHcalculatorDlg::OnBnClickedButton9()
 
 void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
+
 	if (Edit_window != _T(""))					//jh: if edit window is not empty
 	{
 			result = _ttof(Edit_window);		//jh: convert string to numerical value
 			changeNum = !changeNum;				//jh: switch the flag's state
 			Edit_window = _T("");				//jh: clear the calculator's text window
 			op = 1;								//jh: set operation to 1
+
 	}
 }
 
@@ -453,6 +455,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 
 
+
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {															//jh: these conditions allow the user to convert numbers either before performing other operations or after
 	if (equPressed == false)								//jh: if equ ("=") not pressed
@@ -475,7 +478,11 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 	binary = std::bitset<16>(resultBin).to_string();			//jh: max 16-bit numbers
 	Edit_window = binary.c_str();								//jh: conversion to CString (in order to display the result)
 	
+
 	UpdateData(FALSE);
+	return number;
+}
+
 
 	if (resultBin < 0)
 	{
@@ -492,9 +499,7 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 
 }
 
-
-
-void CJHcalculatorDlg::OnBnClickedButtonOct()
+long long int CJHcalculatorDlg::OctAlgorithm(long long int number)
 {
 	if (equPressed == false)
 	{
@@ -525,6 +530,20 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 
 	Edit_window.Format(_T("%lld"), oct);						//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
+	return number;
+}
+
+
+void CJHcalculatorDlg::OnBnClickedButtonOct()
+{
+	if (changeNum == true)
+	{
+		OctAlgorithm(num1);
+	}
+	else
+	{
+		OctAlgorithm(result);
+	}
 
 	if (result < 0)
 	{
@@ -539,6 +558,13 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 	}
 
 	Edit_window = "";											//jh: clear the edit window
+}
+
+
+long long int CJHcalculatorDlg::HexAlgorithm(long long int number)
+{
+	number = _ttof(Edit_window);
+	return number;
 }
 
 

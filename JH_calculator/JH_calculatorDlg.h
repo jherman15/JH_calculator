@@ -41,6 +41,10 @@ public:
 	bool changeNum, equPressed;
 	CString str1, str2;
 	CString Edit_window;
+
+	long long int BinAlgorithm(long long int number);
+	long long int OctAlgorithm(long long int number);
+	long long int HexAlgorithm(long long int number);
 	
 
 	afx_msg void OnBnClickedButton0();
