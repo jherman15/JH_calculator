@@ -8,7 +8,7 @@
 // CJHcalculatorDlg dialog
 class CJHcalculatorDlg : public CDialogEx
 {
-// Construction
+	// Construction
 public:
 	CJHcalculatorDlg(CWnd* pParent = nullptr);	// standard constructor
 
@@ -17,7 +17,7 @@ public:
 	enum { IDD = IDD_JH_CALCULATOR_DIALOG };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
 
@@ -42,10 +42,6 @@ public:
 	CString str1, str2;
 	CString Edit_window;
 
-	long long int BinAlgorithm(long long int number);
-	long long int OctAlgorithm(long long int number);
-	long long int HexAlgorithm(long long int number);
-	
 
 	afx_msg void OnBnClickedButton0();
 	afx_msg void OnBnClickedButton1();
@@ -57,7 +53,7 @@ public:
 	afx_msg void OnBnClickedButton7();
 	afx_msg void OnBnClickedButton8();
 	afx_msg void OnBnClickedButton9();
-	
+
 	afx_msg void OnBnClickedButtonPlus();
 	afx_msg void OnBnClickedButtonMinus();
 	afx_msg void OnBnClickedButtonMply();

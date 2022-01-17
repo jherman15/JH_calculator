@@ -21,12 +21,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 // Implementation
@@ -78,7 +78,7 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	
+
 	ON_BN_CLICKED(IDC_BUTTON0, &CJHcalculatorDlg::OnBnClickedButton0)
 	ON_BN_CLICKED(IDC_BUTTON1, &CJHcalculatorDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CJHcalculatorDlg::OnBnClickedButton2)
@@ -89,7 +89,7 @@ BEGIN_MESSAGE_MAP(CJHcalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON7, &CJHcalculatorDlg::OnBnClickedButton7)
 	ON_BN_CLICKED(IDC_BUTTON8, &CJHcalculatorDlg::OnBnClickedButton8)
 	ON_BN_CLICKED(IDC_BUTTON9, &CJHcalculatorDlg::OnBnClickedButton9)
-	
+
 	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CJHcalculatorDlg::OnBnClickedButtonPlus)
 	ON_BN_CLICKED(IDC_BUTTON_MINUS, &CJHcalculatorDlg::OnBnClickedButtonMinus)
 	ON_BN_CLICKED(IDC_BUTTON_MPLY, &CJHcalculatorDlg::OnBnClickedButtonMply)
@@ -112,7 +112,7 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	
+
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -130,13 +130,13 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 		}
 	}
 
-	
+
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	
 
-	return TRUE;  
+
+	return TRUE;
 }
 
 void CJHcalculatorDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -366,14 +366,12 @@ void CJHcalculatorDlg::OnBnClickedButton9()
 
 void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
-
 	if (Edit_window != _T(""))					//jh: if edit window is not empty
 	{
-			result = _ttof(Edit_window);		//jh: convert string to numerical value
-			changeNum = !changeNum;				//jh: switch the flag's state
-			Edit_window = _T("");				//jh: clear the calculator's text window
-			op = 1;								//jh: set operation to 1
-
+		result = _ttof(Edit_window);		//jh: convert string to numerical value
+		changeNum = !changeNum;				//jh: switch the flag's state
+		Edit_window = _T("");				//jh: clear the calculator's text window
+		op = 1;								//jh: set operation to 1
 	}
 }
 
@@ -420,7 +418,7 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	{
 		equPressed = true;					//jh: ("=") has been pressed
 		num0 = _ttof(Edit_window);			//jh: convert string to numerical value (num0)
-		changeNum = !changeNum;				
+		changeNum = !changeNum;
 		Edit_window = _T("");				//jh: clear the edit window
 	}
 
@@ -455,7 +453,6 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 
 
 
-
 void CJHcalculatorDlg::OnBnClickedButtonBin()
 {															//jh: these conditions allow the user to convert numbers either before performing other operations or after
 	if (equPressed == false)								//jh: if equ ("=") not pressed
@@ -471,18 +468,14 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 	}
 	else
 	{
-		resultBin = result;									
+		resultBin = result;
 	}
 
 	std::string binary;
 	binary = std::bitset<16>(resultBin).to_string();			//jh: max 16-bit numbers
 	Edit_window = binary.c_str();								//jh: conversion to CString (in order to display the result)
-	
 
 	UpdateData(FALSE);
-	return number;
-}
-
 
 	if (resultBin < 0)
 	{
@@ -499,7 +492,9 @@ void CJHcalculatorDlg::OnBnClickedButtonBin()
 
 }
 
-long long int CJHcalculatorDlg::OctAlgorithm(long long int number)
+
+
+void CJHcalculatorDlg::OnBnClickedButtonOct()
 {
 	if (equPressed == false)
 	{
@@ -530,20 +525,6 @@ long long int CJHcalculatorDlg::OctAlgorithm(long long int number)
 
 	Edit_window.Format(_T("%lld"), oct);						//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
-	return number;
-}
-
-
-void CJHcalculatorDlg::OnBnClickedButtonOct()
-{
-	if (changeNum == true)
-	{
-		OctAlgorithm(num1);
-	}
-	else
-	{
-		OctAlgorithm(result);
-	}
 
 	if (result < 0)
 	{
@@ -558,13 +539,6 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 	}
 
 	Edit_window = "";											//jh: clear the edit window
-}
-
-
-long long int CJHcalculatorDlg::HexAlgorithm(long long int number)
-{
-	number = _ttof(Edit_window);
-	return number;
 }
 
 
@@ -601,7 +575,7 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 			hexNum = char(rem + 48) + hexNum;				//jh: getting an ASCII character
 			i++;
 		}
-		else 
+		else
 		{
 			hexNum = char(rem + 55) + hexNum;				//jh: getting an ASCII character
 			i++;
@@ -612,7 +586,7 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 
 	if (hexNum == "")
 	{
-		Edit_window = "0";	
+		Edit_window = "0";
 		UpdateData(FALSE);
 	}
 	else
@@ -644,7 +618,7 @@ void CJHcalculatorDlg::OnBnClickedButtonDec()					//jh: to go back to decimal sy
 	{
 		if (changeNum == true)
 		{
-			resultDec = _ttof(str1);							
+			resultDec = _ttof(str1);
 			Edit_window.Format(_T("%.3f"), resultDec);			//jh: display a double type variable
 			resultDec = 0;
 		}
