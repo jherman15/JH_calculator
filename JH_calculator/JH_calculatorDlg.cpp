@@ -1,4 +1,3 @@
-
 // JH_calculatorDlg.cpp : implementation file
 //
 
@@ -7,7 +6,7 @@
 #include "JH_calculator.h"
 #include "JH_calculatorDlg.h"
 #include "afxdialogex.h"
-#include <bitset> //jh: convert to binary
+#include <bitset>									//jh: convert to binary
 #include <vector>
 
 #ifdef _DEBUG
@@ -56,12 +55,13 @@ CJHcalculatorDlg::CJHcalculatorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_JH_CALCULATOR_DIALOG, pParent)
 	, Edit_window(_T(""))
 {
-	num0 = num1 = 0;
+	num0 = num1 = 0;														//jh: setting start values
 	str1 = _T("");
 	str2 = _T("");
 
 	changeNum = true;
-	equ_pressed = false;
+	equPressed = false;
+
 	op = 0;
 	result = 0;
 
@@ -112,9 +112,7 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
-
-	// IDM_ABOUTBOX must be in the system command range.
+	
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -132,14 +130,13 @@ BOOL CJHcalculatorDlg::OnInitDialog()
 		}
 	}
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
+	
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  
 }
 
 void CJHcalculatorDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -155,9 +152,7 @@ void CJHcalculatorDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+
 
 void CJHcalculatorDlg::OnPaint()
 {
@@ -196,14 +191,14 @@ HCURSOR CJHcalculatorDlg::OnQueryDragIcon()
 
 void CJHcalculatorDlg::OnBnClickedButton0()
 {
-	if (changeNum == true)
+	if (changeNum == true)							//jh: if this is the first number
 	{
-		str1 += _T("0");	//add 0 on the end of string 1
+		str1 += _T("0");							//jh: add 0 on the end of string 1
 		Edit_window = str1;
-	}
+	}												//jh: if this is the second number
 	else
 	{
-		str2 += _T("0");	//add 0 on the end of string 2
+		str2 += _T("0");							//jh: add 0 on the end of string 2
 		Edit_window = str2;
 	}
 
@@ -371,20 +366,14 @@ void CJHcalculatorDlg::OnBnClickedButton9()
 
 void CJHcalculatorDlg::OnBnClickedButtonPlus()
 {
-	if (Edit_window != _T(""))				//jh: if edit window is not empty
+
+	if (Edit_window != _T(""))					//jh: if edit window is not empty
 	{
-		//if (equ_pressed = false)
-		//{
-			num1 = _ttof(Edit_window);		//jh: convert string to numerical value (num1)
-			changeNum = !changeNum;			//jh: num1 to num2 or num2 to num1				//jh: changeNum to false		//dok
-			Edit_window = _T("");			
-			op = 1;							//jh: set operation to 1
-			equ_pressed = true;																								//dok
-		//}
-		//else
-		//{
-		//	OnBnClickedButtonEqu();
-		//}
+			result = _ttof(Edit_window);		//jh: convert string to numerical value
+			changeNum = !changeNum;				//jh: switch the flag's state
+			Edit_window = _T("");				//jh: clear the calculator's text window
+			op = 1;								//jh: set operation to 1
+
 	}
 }
 
@@ -393,7 +382,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMinus()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 2;
@@ -405,7 +394,7 @@ void CJHcalculatorDlg::OnBnClickedButtonMply()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 3;
@@ -417,7 +406,7 @@ void CJHcalculatorDlg::OnBnClickedButtonDiv()
 {
 	if (Edit_window != _T(""))
 	{
-		num1 = _ttof(Edit_window);
+		result = _ttof(Edit_window);
 		changeNum = !changeNum;
 		Edit_window = _T("");
 		op = 4;
@@ -429,37 +418,33 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 {
 	if (Edit_window != _T(""))
 	{
+		equPressed = true;					//jh: ("=") has been pressed
 		num0 = _ttof(Edit_window);			//jh: convert string to numerical value (num0)
 		changeNum = !changeNum;				
 		Edit_window = _T("");				//jh: clear the edit window
 	}
 
-	if (op == 1)
+	if (op == 1)							//jh: if ("+") has been pressed
 	{
-		result = num1 + num0;
+		result += num0;
 	}
-	if (op == 2)
+	if (op == 2)							//jh: if ("-") has been pressed
 	{
-		result = num1 - num0;
+		result -= num0;
 	}
-	if (op == 3)
+	if (op == 3)							//jh: if ("*") has been pressed
 	{
-		result = num1 * num0;
+		result *= num0;
 	}
-	if (op == 4)
+	if (op == 4)							//jh: if ("/") has been pressed
 	{
-		result = num1 / num0;
-	}
-	else
-	{
-		result = result;
+		result /= num0;
 	}
 
-	Edit_window.Format(_T("%.3f"), result);				//jh: convert the result from string to float
+	Edit_window.Format(_T("%.3f"), result);				//jh: convert the result from float type to CString type
 	UpdateData(FALSE);
 	str1 = _T("");										//jh: clear string (str1)
 	str2 = _T("");										//jh: clear string (str2)
-	equ_pressed = true;
 
 	if (result > 9000000000000000)						//jh: this value is close to 2^53, which is approx. the maximum value
 	{
@@ -468,60 +453,82 @@ void CJHcalculatorDlg::OnBnClickedButtonEqu()
 	}
 }
 
-long long int CJHcalculatorDlg::BinAlgorithm(long long int number)
-{
-	number = _ttof(Edit_window);
+
+
+
+void CJHcalculatorDlg::OnBnClickedButtonBin()
+{															//jh: these conditions allow the user to convert numbers either before performing other operations or after
+	if (equPressed == false)								//jh: if equ ("=") not pressed
+	{
+		if (changeNum == true)								//jh: if inserted first number
+		{
+			resultBin = _ttof(str1);
+		}
+		else
+		{													//jh: if inserted second number						
+			resultBin = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultBin = result;									
+	}
+
 	std::string binary;
-	binary = std::bitset<32>(number).to_string();			//jh: max 32-bit numbers
-	Edit_window = binary.c_str();							//jh: conversion to CString (in order to display the result)
+	binary = std::bitset<16>(resultBin).to_string();			//jh: max 16-bit numbers
+	Edit_window = binary.c_str();								//jh: conversion to CString (in order to display the result)
+	
+
 	UpdateData(FALSE);
 	return number;
 }
 
 
-
-void CJHcalculatorDlg::OnBnClickedButtonBin()
-{
-	if (changeNum == true)
+	if (resultBin < 0)
 	{
-		BinAlgorithm(num1);
-	}
-	else
-	{
-		BinAlgorithm(result);
-	}
-	
-	if (result < 0)
-	{
-		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
+		Edit_window = "Negative numbers not supported";			//jh: conversion only for positive numbers
 		UpdateData(FALSE);
 	}
 
-	if (result > 65535)
+	if (resultBin > 65535)
 	{
 		Edit_window = "Max number for BIN is 65535 (DEC)";
 		UpdateData(FALSE);
 	}
-
+	resultBin = 0;
 
 }
 
 long long int CJHcalculatorDlg::OctAlgorithm(long long int number)
 {
-	number = _ttof(Edit_window);
-
-	long long int oct = 0;									//jh: octal number
-	long long int rem;										//jh: division's remainder
-	number_ = number;										//jh: result variable copy
-
-	for (long long int i = 1; number_ > 0; i = i * 10)
+	if (equPressed == false)
 	{
-		rem = number_ % 8;									//jh: remainder of dividing by 8
-		number_ = number_ / 8;
-		oct += (rem * i);									//jh: algorithm for getting octal number
+		if (changeNum == true)
+		{
+			resultOct = _ttof(str1);
+		}
+		else
+		{
+			resultOct = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultOct = result;
 	}
 
-	Edit_window.Format(_T("%lld"), oct);					//jh: conversion of oct variable type (long long int) to CString
+
+	long long int oct = 0;										//jh: octal number
+	long long int rem;											//jh: division's remainder
+
+	for (long long int i = 1; resultOct > 0; i = i * 10)
+	{
+		rem = resultOct % 8;									//jh: remainder of dividing by 8
+		resultOct = resultOct / 8;
+		oct += (rem * i);										//jh: algorithm for getting octal number
+	}
+
+	Edit_window.Format(_T("%lld"), oct);						//jh: conversion of oct variable type (long long int) to CString
 	UpdateData(FALSE);
 	return number;
 }
@@ -538,9 +545,9 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 		OctAlgorithm(result);
 	}
 
-	if (number_ < 0)
+	if (result < 0)
 	{
-		Edit_window = "Negative numbers not supported";		//jh: conversion only for positive numbers
+		Edit_window = "Negative numbers not supported";			//jh: conversion only for positive numbers
 		UpdateData(FALSE);
 	}
 
@@ -550,7 +557,7 @@ void CJHcalculatorDlg::OnBnClickedButtonOct()
 		UpdateData(FALSE);
 	}
 
-	Edit_window = "";										//jh: clear the edit window
+	Edit_window = "";											//jh: clear the edit window
 }
 
 
@@ -563,45 +570,59 @@ long long int CJHcalculatorDlg::HexAlgorithm(long long int number)
 
 void CJHcalculatorDlg::OnBnClickedButtonHex()
 {
-	num1 = _ttof(Edit_window);
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultHex = _ttof(str1);
+		}
+		else
+		{
+			resultHex = _ttof(str2);
+		}
+	}
+	else
+	{
+		resultHex = result;
+	}
 
-	number_ = result;										//jh: number_ equals result to be used in conversion
+
 	std::string hexNum = "";								//jh: variable to store hex number string
 
 	int i = 0;												//jh: counter for hexadecimal number array
 
-	while (number_ != 0)
+	while (resultHex != 0)
 	{
 		int rem = 0;										//jh: temporary variable to store remainder
-		rem = number_ % 16;
+		rem = resultHex % 16;
 
 		if (rem < 10)
 		{
-			hexNum = char(rem + 48) + hexNum;
+			hexNum = char(rem + 48) + hexNum;				//jh: getting an ASCII character
 			i++;
 		}
 		else 
 		{
-			hexNum = char(rem + 55) + hexNum;
+			hexNum = char(rem + 55) + hexNum;				//jh: getting an ASCII character
 			i++;
 		}
 
-		number_ = number_ / 16;
+		resultHex = resultHex / 16;
 	}
 
 	if (hexNum == "")
 	{
-		Edit_window = "0";									// dla pustego q, na ekranie wyswietlana jest wartosc 0
+		Edit_window = "0";	
 		UpdateData(FALSE);
 	}
 	else
 	{
-		Edit_window = hexNum.c_str(); // konwersja typu string na cstring
+		Edit_window = hexNum.c_str();						//jh: conversion to CString
 		UpdateData(FALSE);
 	}
 
 
-	if (number_ < 0)
+	if (result < 0)
 	{
 		Edit_window = "Negative numbers not supported";
 		UpdateData(FALSE);
@@ -617,11 +638,28 @@ void CJHcalculatorDlg::OnBnClickedButtonHex()
 }
 
 
-void CJHcalculatorDlg::OnBnClickedButtonDec()
+void CJHcalculatorDlg::OnBnClickedButtonDec()					//jh: to go back to decimal system
 {
-	num1 = _ttof(Edit_window);
+	if (equPressed == false)
+	{
+		if (changeNum == true)
+		{
+			resultDec = _ttof(str1);							
+			Edit_window.Format(_T("%.3f"), resultDec);			//jh: display a double type variable
+			resultDec = 0;
+		}
+		else
+		{
+			resultDec = _ttof(str1);
+			Edit_window.Format(_T("%.3f"), resultDec);
+			resultDec = 0;
+		}
+	}
+	else
+	{
+		Edit_window.Format(_T("%.3f"), result);
+	}
 
-	Edit_window.Format(_T("%.3f"), result); // przedstawienie zmiennej zawierajacej wynik dzialania w typie cstring
 	UpdateData(FALSE);
 
 	if (result > 9000000000000000)
@@ -631,11 +669,13 @@ void CJHcalculatorDlg::OnBnClickedButtonDec()
 	}
 }
 
-
-void CJHcalculatorDlg::OnBnClickedButtonClr()
+void CJHcalculatorDlg::OnBnClickedButtonClr()					//jh: clear button
 {
 	Edit_window = "";
 	str1 = "";
 	str2 = "";
+	result = 0;
+	num0 = 0;
+	equPressed = false;
 	UpdateData(FALSE);
 }

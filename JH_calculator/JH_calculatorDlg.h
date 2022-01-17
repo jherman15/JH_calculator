@@ -35,10 +35,10 @@ protected:
 public:
 
 	double num0, num1;
-	long double result;
-	long long int number_;					//jh: copy of result to be used in conversion
+	double result, resultDec;
+	long long int resultBin, resultHex, resultOct;					//jh: to be used in conversion
 	int op;
-	bool changeNum, equ_pressed;			//jh: equ_pressed
+	bool changeNum, equPressed;
 	CString str1, str2;
 	CString Edit_window;
 
