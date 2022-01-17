@@ -38,7 +38,7 @@ public:
 	long double result, resultDec;
 	long long int resultBin, resultHex, resultOct;					//jh: copy of result to be used in conversion
 	int op;
-	bool changeNum, equPressed = false;
+	bool changeNum, equPressed;
 	CString str1, str2;
 	CString Edit_window;
 	
